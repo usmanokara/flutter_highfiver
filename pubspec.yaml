@@ -1,0 +1,54 @@
+name: dailyhive
+description: A new Flutter application.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^8.11.0
+  cached_network_image: ^2.2.0+1
+  tiktoklikescroller: ^0.1.2
+  flutter_svg: ^0.19.2+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# The following section is specific to Flutter.
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/svg/
+
+  fonts:
+     - family: Schyler
+       fonts:
+         - asset: assets/fonts/AlexBrush-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+     - family: Montserrat-Regular
+       fonts:
+         - asset: assets/fonts/Montserrat-Regular.ttf
+     - family: Sogeo
+       fonts:
+         - asset: assets/fonts/segoepr.ttf
+     - family: Montserrat-SemiBold
+       fonts:
+         - asset: assets/fonts/Montserrat-SemiBold.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+
