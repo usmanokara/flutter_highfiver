@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage(MyImages.logo), context);
     precacheImage(AssetImage(MyImages.LOGIN_BACK), context);
     precacheImage(AssetImage(MyImages.HOME_BACK), context);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
