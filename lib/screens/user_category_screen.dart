@@ -1,6 +1,7 @@
 import 'package:dailyhive/screens/add_category_screen.dart';
 import 'package:dailyhive/screens/affirmation_list.dart';
 import 'package:dailyhive/screens/profile_screen.dart';
+import 'package:dailyhive/utils/constants.dart';
 import 'package:dailyhive/utils/my_list_card.dart';
 import 'package:dailyhive/values/my_images_files.dart';
 import 'package:dailyhive/values/mycolors.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserCategoryScreen extends StatefulWidget {
-  static String ID = "user_category_screen";
+  static const String ID = "user_category_screen";
 
   @override
   _UserCategoryScreenState createState() => _UserCategoryScreenState();
@@ -65,13 +66,13 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 60),
                 child: Wrap(
-                  children: categories.map((e) {
+                  children: Constants.categoriesList.map((e) {
                     return GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, AffimationList.ID);
                       },
-                      child:
-                          MyListTile(backImage: e['image'], title: e['title']),
+                      child: MyListTile(
+                          backImage: e.imageUrl, title: e.categoryName),
                     );
                   }).toList(),
                 ),
