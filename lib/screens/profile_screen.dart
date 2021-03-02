@@ -142,7 +142,7 @@ class Toolbat extends StatelessWidget {
                   title,
                   style: TextStyle(
                       fontFamily: MyReferences.montserratSemiBold,
-                      fontSize: 25),
+                      fontSize: 20),
                 ),
               ),
             ),

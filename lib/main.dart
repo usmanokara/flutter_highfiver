@@ -1,20 +1,25 @@
-import 'package:dailyhive/screens/add_category_screen.dart';
-import 'package:dailyhive/screens/admin_category_screen.dart';
-import 'package:dailyhive/screens/admin_home_screen.dart';
-import 'package:dailyhive/screens/affirmation_detail_screen.dart';
-import 'package:dailyhive/screens/affirmation_list.dart';
-import 'package:dailyhive/screens/favourites_affirmation_screen.dart';
-import 'package:dailyhive/screens/home_screen.dart';
-import 'package:dailyhive/screens/login_screen.dart';
-import 'package:dailyhive/screens/login_with_admin.dart';
-import 'package:dailyhive/screens/profile_screen.dart';
-import 'package:dailyhive/screens/splash_screen.dart';
-import 'package:dailyhive/screens/user_category_screen.dart';
-import 'package:dailyhive/values/my_images_files.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'screens/view_users_screen.dart';
 import 'package:flutter/material.dart';
+import 'screens/add_affirmation_screen.dart';
+import 'screens/add_category_screen.dart';
+import 'screens/admin_category_screen.dart';
+import 'screens/admin_home_screen.dart';
+import 'screens/affirmation_detail_screen.dart';
+import 'screens/affirmation_list.dart';
+import 'screens/favourites_affirmation_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/login_with_admin.dart';
+import 'screens/profile_screen.dart';
+import 'screens/splash_screen.dart';
+import 'screens/user_category_screen.dart';
 import 'values/my_images_files.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -38,7 +43,9 @@ class MyApp extends StatelessWidget {
         FavoritesAffirmationList.ID: (_) => FavoritesAffirmationList(),
         LoginWithEmail.ID: (_) => LoginWithEmail(),
         AdminHomeScreen.ID: (_) => AdminHomeScreen(),
-        AddCategoryScreen.ID: (_) => AddCategoryScreen()
+        AddCategoryScreen.ID: (_) => AddCategoryScreen(),
+        AddAffirmationScreen.ID: (_) => AddAffirmationScreen(),
+        ViewUsersScreen.ID: (_) => ViewUsersScreen(),
       },
       home: SplashScreen(),
     );

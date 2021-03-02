@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "275957142852",
+    "project_id": "dailyhighfive-eea04",
+    "storage_bucket": "dailyhighfive-eea04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275957142852:android:f2dba5ad46a2104c0a3311",
+        "android_client_info": {
+          "package_name": "com.dotsbit.dailyhive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275957142852-j0hqpnejt1hl9gcadrkhijhs3q9iud06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dotsbit.dailyhive",
+            "certificate_hash": "4764a45b08926250e522fdfbb636fa797a24b5b2"
+          }
+        },
+        {
+          "client_id": "275957142852-gvnistk2gpubkat51mq4nk2jbb9os5n4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQPcHPAlJwjOUGsICUvxRNyEFugMF3DTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275957142852-gvnistk2gpubkat51mq4nk2jbb9os5n4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
