@@ -1,10 +1,18 @@
 import 'dart:async';
 import 'dart:ui';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dailyhive/models/affirmation_model.dart';
+import 'package:dailyhive/models/category_model.dart';
+import 'package:dailyhive/models/user_model.dart';
+import 'package:dailyhive/screens/admin_home_screen.dart';
+import 'package:dailyhive/screens/home_screen.dart';
 import 'package:dailyhive/screens/login_screen.dart';
+import 'package:dailyhive/utils/constants.dart';
 import 'package:dailyhive/values/my_images_files.dart';
 import 'package:dailyhive/values/mycolors.dart';
 import 'package:dailyhive/values/myreferences.dart';
+import 'package:dailyhive/widgets/dialogs.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -16,13 +24,58 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> _checkUserAlreadyLoggedIn() async {
+    if (_auth.currentUser == null) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(LoginScreen.ID, (route) => false);
+      return;
+    }
+    if (_auth.currentUser.email == Constants.Admin) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(AdminHomeScreen.ID, (route) => false);
+      return;
+    }
+    await _initDataFromFirebase();
+    Constants.currentUser = UserModel(
+        displayName: _auth.currentUser.displayName,
+        email: _auth.currentUser.email,
+        photoUrl: _auth.currentUser.photoURL,
+        uid: _auth.currentUser.uid);
+    Navigator.pushNamed(context, HomeScreen.id);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(HomeScreen.id, (route) => false);
+  }
+
+  Future<void> _initDataFromFirebase() async {
+    try {
+      QuerySnapshot categorySnapshot =
+          await _firestore.collection("categories").get();
+      QuerySnapshot affirmationSnapshot =
+          await _firestore.collection("affirmations").get();
+      categorySnapshot.docs.forEach((doc) {
+        CategoryModel categoryModel = CategoryModel.fromMap(doc.data());
+        Constants.categoriesList.add(categoryModel);
+      });
+      affirmationSnapshot.docs.forEach((doc) {
+        AffirmationModel affirmationsList =
+            AffirmationModel.fromMap(doc.data());
+        Constants.affirmationsList.add(affirmationsList);
+      });
+    } catch (e) {
+      AppDialog()
+          .showOSDialog(context, "Error", "Something went wrong", "Ok", null);
+      print("Error: $e");
+    }
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     Timer(
-      Duration(seconds: 3),
-      () => Navigator.of(context)
-          .pushNamedAndRemoveUntil(LoginScreen.ID, (route) => false),
+      Duration(seconds: 2),
+      () => _checkUserAlreadyLoggedIn(),
     );
     super.initState();
   }

@@ -1,13 +1,14 @@
-import 'package:dailyhive/screens/affirmation_detail_screen.dart';
-import 'package:dailyhive/screens/profile_screen.dart';
-import 'package:dailyhive/utils/affimation_list_tem.dart';
-import 'package:dailyhive/utils/my_list_card.dart';
-import 'package:dailyhive/values/mycolors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dailyhive/utils/constants.dart';
+import 'package:dailyhive/values/myreferences.dart';
 import 'package:flutter/material.dart';
+import '../screens/add_affirmation_screen.dart';
+import '../screens/affirmation_detail_screen.dart';
+import '../screens/profile_screen.dart';
+import '../utils/affimation_list_tem.dart';
+import '../values/mycolors.dart';
 
 class AffimationList extends StatefulWidget {
-  static String ID = "/affirmation_list";
+  static const String ID = "/affirmation_list";
 
   @override
   _AffimationListState createState() => _AffimationListState();
@@ -58,27 +59,38 @@ class _AffimationListState extends State<AffimationList> {
           children: [
             Toolbat(title: "Affirmation"),
             Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: categories.map((e) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, AffirmationDetailScreen.ID);
-                    },
-                    child: AffirmationListItem(
-                      title: e['title'],
-                      backImage: e['image'],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ))
+                child: Constants.affirmationsList.isEmpty
+                    ? Center(
+                        child: Text(
+                        "No Affirmations",
+                        style: TextStyle(
+                            fontFamily: MyReferences.montserratSemiBold,
+                            fontSize: 25.0),
+                      ))
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: Constants.affirmationsList.map((e) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AffirmationDetailScreen.ID);
+                              },
+                              child: AffirmationListItem(
+                                title: e.authorName,
+                                backImage: e.imageUrl,
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ))
           ],
         ),
       ),
       floatingActionButton: isAdmin
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AddAffirmationScreen.ID);
+              },
               backgroundColor: MyColors.orangeColor,
               child: Icon(Icons.add),
             )
