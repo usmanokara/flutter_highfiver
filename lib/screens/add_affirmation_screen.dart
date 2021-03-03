@@ -117,9 +117,9 @@ class _AddAffirmationScreenState extends State<AddAffirmationScreen> {
       _isLoading = true;
     });
     try {
-      await _firebaseStorage.ref('categories/$categoryName').putFile(file);
+      await _firebaseStorage.ref('affirmations/$authorName').putFile(file);
       final downloadURL =
-          _firebaseStorage.ref('categories/$categoryName').getDownloadURL();
+          _firebaseStorage.ref('affirmations/$authorName').getDownloadURL();
       setState(() {
         _isLoading = false;
       });

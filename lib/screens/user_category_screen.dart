@@ -1,4 +1,5 @@
 import 'package:dailyhive/screens/add_category_screen.dart';
+import 'package:dailyhive/screens/affirmation_detail_screen.dart';
 import 'package:dailyhive/screens/affirmation_list.dart';
 import 'package:dailyhive/screens/profile_screen.dart';
 import 'package:dailyhive/utils/constants.dart';
@@ -45,6 +46,8 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
                         children: Constants.categoriesList.map((e) {
                           return GestureDetector(
                             onTap: () {
+                              AffimationList.categoryId = e.id;
+                              setState(() {});
                               Navigator.pushNamed(context, AffimationList.ID);
                             },
                             child: MyListTile(

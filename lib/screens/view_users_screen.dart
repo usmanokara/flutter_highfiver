@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dailyhive/models/user_model.dart';
 import 'package:dailyhive/values/myreferences.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dailyhive/widgets/cache_image.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ViewUsersScreen extends StatefulWidget {
   static const String ID = "view_users_screen";
@@ -9,6 +12,30 @@ class ViewUsersScreen extends StatefulWidget {
 }
 
 class _ViewUsersScreenState extends State<ViewUsersScreen> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List<UserModel> userModelList = [];
+  bool _isLoading = false;
+
+  Future<void> _getUsers() async {
+    setState(() {
+      _isLoading = true;
+    });
+    QuerySnapshot snapshot = await _firestore.collection("users").get();
+    snapshot.docs.forEach((doc) {
+      UserModel userModel = UserModel.fromJson(doc.data());
+      userModelList.add(userModel);
+    });
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    _getUsers();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +62,28 @@ class _ViewUsersScreenState extends State<ViewUsersScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
-        child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (_, index) => Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: UserList(username: "User # $index"),
-          ),
+      body: ModalProgressHUD(
+        inAsyncCall: _isLoading,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+          child: userModelList.isEmpty
+              ? Center(
+                  child: Text(
+                  _isLoading ? "" : "No Users",
+                  style: TextStyle(
+                      fontFamily: MyReferences.montserratSemiBold,
+                      fontSize: 25.0),
+                ))
+              : ListView.builder(
+                  itemCount: userModelList.length,
+                  itemBuilder: (_, index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: UserList(
+                      username: "${userModelList[index].displayName}",
+                      imageUrl: userModelList[index].photoUrl,
+                    ),
+                  ),
+                ),
         ),
       ),
     );
@@ -51,9 +92,11 @@ class _ViewUsersScreenState extends State<ViewUsersScreen> {
 
 class UserList extends StatelessWidget {
   final String username;
+  final String imageUrl;
   const UserList({
     Key key,
     this.username,
+    this.imageUrl,
   }) : super(key: key);
 
   @override
@@ -81,14 +124,23 @@ class UserList extends StatelessWidget {
               color: Colors.orange,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.person_outline, color: Colors.white),
+            child: this.imageUrl != null
+                ? AppCacheImage(
+                    imageUrl: this.imageUrl,
+                    width: double.infinity,
+                    height: double.infinity,
+                    round: 30,
+                  )
+                : Icon(Icons.person_outline, color: Colors.white),
           ),
           SizedBox(width: 25.0),
-          Text(
-            this.username,
-            style: TextStyle(
-              fontFamily: MyReferences.montserratRegular,
-              fontSize: 18.0,
+          Flexible(
+            child: Text(
+              this.username,
+              style: TextStyle(
+                fontFamily: MyReferences.montserratRegular,
+                fontSize: 18.0,
+              ),
             ),
           ),
         ],

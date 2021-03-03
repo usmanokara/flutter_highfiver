@@ -1,9 +1,13 @@
-import 'package:dailyhive/screens/admin_category_screen.dart';
 import 'package:dailyhive/screens/favourites_affirmation_screen.dart';
 import 'package:dailyhive/screens/user_category_screen.dart';
+import 'package:dailyhive/utils/constants.dart';
 import 'package:dailyhive/values/myreferences.dart';
 import 'package:dailyhive/widgets/cache_image.dart';
+import 'package:dailyhive/widgets/dialogs.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profileScreen';
@@ -13,6 +17,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  void _logOut() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signOut();
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginScreen.ID, (Route<dynamic> route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +39,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 100,
                       width: 100,
                       round: 50,
-                      imageUrl:
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUNiIFp9GhQQoJ6f_NAGj-77ZvY5gHhH9kUQ&usqp=CAU",
+                      imageUrl: Constants.currentUser.photoUrl,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      "Marina Joe",
+                      Constants.currentUser.displayName,
                       style: TextStyle(
                           fontFamily: MyReferences.montserratSemiBold,
                           fontSize: 20),
@@ -72,7 +82,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ProfileItems(
                       icon: Icons.logout,
                       title: "Logout",
-                      onClick: () {},
+                      onClick: () {
+                        AppDialog().showOSDialog(
+                          context,
+                          "Are you sure?",
+                          "Do you really want to logout?",
+                          "No",
+                          () {},
+                          secondButtonText: "Yes",
+                          secondCallback: () {
+                            _logOut();
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),

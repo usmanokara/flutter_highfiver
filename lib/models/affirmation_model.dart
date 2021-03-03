@@ -27,7 +27,7 @@ class AffirmationModel {
     data['id'] = this.id;
     data['authorName'] = this.authorName;
     data['affirmation'] = this.affirmation;
-    data['category'] = this.categoryId;
+    data['categoryId'] = this.categoryId;
     data['imageUrl'] = this.imageUrl;
     data['userIDs'] = this.userIDs ?? [];
     return data;
@@ -35,6 +35,6 @@ class AffirmationModel {
 
   @override
   String toString() {
-    return 'CategoryModel{id: $id, categoryName: $authorName, imageUrl: $affirmation, categoryId: $categoryId}, userIds: $userIDs';
+    return 'CategoryModel{id: $id, categoryName: $authorName, imageUrl: $affirmation, categoryId: $categoryId}, userIDs: $userIDs';
   }
 }
