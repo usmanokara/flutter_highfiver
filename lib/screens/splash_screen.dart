@@ -41,12 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: MediaQuery.of(context).size.width / 2,
                 child: Image.asset(MyImages.logo),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Text(
                 'Daily Hive\nFive',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 60,
+                    fontSize: 50,
                     fontFamily: MyReferences.alexBrush,
                     color: MyColors.orangeColor),
               )

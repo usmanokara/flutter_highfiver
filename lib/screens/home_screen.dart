@@ -23,21 +23,20 @@ class _HomeScreenState extends State<HomeScreen> {
       'text':
           'Two things are infinite:  \nthe universe and human stupidity and I\'m not sure about the universe',
       'author': '-Albert Einstien',
-      'image':
-          'http://images.unsplash.com/photo-1561016444-14f747499547?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMjA3fDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080'
+      'image': 'https://wallpaperaccess.com/full/1163661.jpg'
     },
     {
       'text': 'Droplets of water ',
       'author': '-- Newton  --',
       'image':
-          'https://lh3.googleusercontent.com/proxy/y-WvRW3MXZwyIXnJryjWcBctMtR_JOQObMqFMu4Ay7J790H9hGiMmehP3B_TnmV5Wg_ZOy-aEBm5IrFLeFVdEXom2sLZWU6mIGHcfzNTKDrpl20X4y-PEy-Ol3nB9l8q'
+          'https://cdn.pixabay.com/photo/2017/06/30/22/11/landscape-2459979_1280.jpg'
     },
     {
       'text':
           'Two things are infinite:  \nthe universe and human stupidity and I\'m not sure about the universe',
       'author': '-- Albert Einstien --',
       'image':
-          'http://images.unsplash.com/photo-1561016444-14f747499547?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMjA3fDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080'
+          'https://potobutut.files.wordpress.com/2019/07/63810-full-hd-nature-wallpapers-free-downloads-for-laptop-15.jpg'
     },
   ];
 
