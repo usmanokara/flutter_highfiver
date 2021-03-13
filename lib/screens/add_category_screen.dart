@@ -91,10 +91,10 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
       CategoryModel categoryModel =
           CategoryModel(id: id, categoryName: categoryName, imageUrl: url);
       await _firestore.doc("categories/$id").set(categoryModel.toMap());
+      Navigator.pushReplacementNamed(context, AdminHomeScreen.ID);
       setState(() {
         _isLoading = false;
       });
-      Navigator.pushReplacementNamed(context, AdminHomeScreen.ID);
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -165,6 +165,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20),
                   ),
+                  SizedBox(height: 30.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
@@ -174,6 +175,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           decoration:
                               InputDecoration(hintText: 'Category name'),
                           onChanged: (value) {

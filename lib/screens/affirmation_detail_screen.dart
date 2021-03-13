@@ -1,9 +1,10 @@
+import 'package:dailyhive/models/affirmation_model.dart';
 import 'package:dailyhive/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AffirmationDetailScreen extends StatefulWidget {
-  static String ID = "affirmation_detail_screen";
+  static const String ID = "affirmation_detail_screen";
 
   @override
   _AffirmationDetailScreenState createState() =>
@@ -11,6 +12,14 @@ class AffirmationDetailScreen extends StatefulWidget {
 }
 
 class _AffirmationDetailScreenState extends State<AffirmationDetailScreen> {
+  AffirmationModel affirmationModel;
+
+  @override
+  void didChangeDependencies() {
+    affirmationModel = ModalRoute.of(context).settings.arguments;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,11 +27,9 @@ class _AffirmationDetailScreenState extends State<AffirmationDetailScreen> {
         child: Stack(
           children: [
             HomeItem(
-              text:
-                  "Two things are infinite:  \nthe universe and human stupidity and I\'m not sure about the universe",
-              image:
-                  "http://images.unsplash.com/photo-1561016444-14f747499547?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMjA3fDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080",
-              author: "-Albert Einstien",
+              text: affirmationModel.affirmation,
+              image: affirmationModel.imageUrl,
+              author: "-${affirmationModel.authorName}",
             ),
             Positioned(
                 left: 20,

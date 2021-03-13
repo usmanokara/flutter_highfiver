@@ -39,22 +39,19 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
     await _initDataFromFirebase();
-    Constants.currentUser = UserModel(
-        displayName: _auth.currentUser.displayName,
-        email: _auth.currentUser.email,
-        photoUrl: _auth.currentUser.photoURL,
-        uid: _auth.currentUser.uid);
-    Navigator.pushNamed(context, HomeScreen.id);
     Navigator.of(context)
         .pushNamedAndRemoveUntil(HomeScreen.id, (route) => false);
   }
 
   Future<void> _initDataFromFirebase() async {
     try {
+      DocumentSnapshot userSnapshot =
+          await _firestore.doc("users/${_auth.currentUser.uid}").get();
       QuerySnapshot categorySnapshot =
           await _firestore.collection("categories").get();
       QuerySnapshot affirmationSnapshot =
           await _firestore.collection("affirmations").get();
+      Constants.currentUser = UserModel.fromJson(userSnapshot.data());
       categorySnapshot.docs.forEach((doc) {
         CategoryModel categoryModel = CategoryModel.fromMap(doc.data());
         Constants.categoriesList.add(categoryModel);
@@ -74,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(
-      Duration(seconds: 2),
+      Duration(seconds: 1),
       () => _checkUserAlreadyLoggedIn(),
     );
     super.initState();

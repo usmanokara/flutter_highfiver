@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dailyhive/models/affirmation_model.dart';
 import 'package:dailyhive/models/category_model.dart';
 import 'package:dailyhive/screens/affirmation_list.dart';
+import 'package:dailyhive/screens/login_screen.dart';
 import 'package:dailyhive/screens/profile_screen.dart';
 import 'package:dailyhive/screens/user_category_screen.dart';
 import 'package:dailyhive/screens/view_users_screen.dart';
@@ -9,6 +10,7 @@ import 'package:dailyhive/utils/constants.dart';
 import 'package:dailyhive/values/my_images_files.dart';
 import 'package:dailyhive/values/myreferences.dart';
 import 'package:dailyhive/widgets/dialogs.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -24,11 +26,20 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _isLoading = false;
 
+  void _logOut() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signOut();
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginScreen.ID, (Route<dynamic> route) => false);
+  }
+
   Future<void> _initDataFromFirebase() async {
     setState(() {
       _isLoading = true;
     });
     try {
+      Constants.categoriesList = [];
+      Constants.affirmationsList = [];
       QuerySnapshot categorySnapshot =
           await _firestore.collection("categories").get();
       QuerySnapshot affirmationSnapshot =
@@ -51,7 +62,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         _isLoading = false;
       });
       AppDialog()
-          .showOSDialog(context, "Error", "Something went wrong", "Ok", null);
+          .showOSDialog(context, "Error", "Something went wrong", "Ok", () {});
     }
   }
 
@@ -91,6 +102,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         icon: Icons.check_outlined,
                         title: "Affirmations",
                         onClick: () {
+                          AffimationList.categoryId = null;
                           Navigator.pushNamed(context, AffimationList.ID,
                               arguments: true);
                         },
@@ -123,7 +135,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       ProfileItems(
                         icon: Icons.logout,
                         title: "Logout",
-                        onClick: () {},
+                        onClick: () {
+                          AppDialog().showOSDialog(
+                            context,
+                            "Are you sure?",
+                            "Do you really want to logout?",
+                            "No",
+                            () {},
+                            secondButtonText: "Yes",
+                            secondCallback: () {
+                              _logOut();
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),

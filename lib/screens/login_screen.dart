@@ -44,13 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final User currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        Constants.currentUser = UserModel(
-            displayName: currentUser.displayName,
-            email: currentUser.email,
-            photoUrl: currentUser.photoURL,
-            uid: currentUser.uid);
         await _checkUserExists();
-        Navigator.pushNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
         setState(() {
           _isLoading = false;
         });
@@ -71,10 +66,18 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       DocumentSnapshot snapshot =
           await firestore.doc("users/${Constants.currentUser.uid}").get();
-      if (snapshot.exists) return;
+      if (snapshot.exists) {
+        Constants.currentUser = UserModel.fromJson(snapshot.data());
+        return;
+      }
       await firestore
           .doc("users/${Constants.currentUser.uid}")
           .set(Constants.currentUser.toJson());
+      Constants.currentUser = UserModel(
+          displayName: _auth.currentUser.displayName,
+          email: _auth.currentUser.email,
+          photoUrl: _auth.currentUser.photoURL,
+          uid: _auth.currentUser.uid);
     } on FirebaseException catch (e) {
       setState(() {
         _isLoading = false;
